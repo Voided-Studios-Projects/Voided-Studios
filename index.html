@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Voided Studios</title>
+
+<style>
+  :root {
+    --void: #0a0014;
+    --purple: #b86bff;
+    --glow: #7a2cff;
+    --text: #eaeaea;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+
+  body {
+    background: var(--void);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(10,0,20,0.6);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .logo {
+    font-size: 1.3rem;
+    color: var(--purple);
+    text-shadow: 0 0 10px var(--glow);
+  }
+
+  nav a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: 0.2s;
+  }
+
+  nav a:hover {
+    opacity: 1;
+    color: var(--purple);
+  }
+
+  section {
+    padding: 80px 20px;
+    max-width: 1000px;
+    margin: auto;
+  }
+
+  .hero {
+    text-align: center;
+    padding-top: 120px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    color: var(--purple);
+    text-shadow: 0 0 20px var(--glow);
+  }
+
+  .hero p {
+    margin-top: 20px;
+    opacity: 0.8;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .btn {
+    margin-top: 30px;
+    padding: 12px 20px;
+    background: var(--purple);
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(122,44,255,0.5);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    transition: 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--purple);
+    box-shadow: 0 0 20px rgba(122,44,255,0.2);
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: var(--purple);
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px;
+    opacity: 0.5;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<header>
+  <div class="logo">Voided Studios</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#vision">Vision</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Welcome to the Void</h1>
+  <p>
+    Voided Studios builds experimental games, AI systems, and digital experiences
+    that push beyond normal boundaries.
+  </p>
+  <button class="btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+    Explore Projects
+  </button>
+</section>
+
+<section id="about">
+  <h2>About Us</h2>
+  <div class="card">
+    Voided Studios is a creative development studio focused on building immersive systems,
+    Roblox experiences, AI tools, and experimental software. We design things that feel
+    unique, dark-themed, and outside traditional design rules.
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid" id="projectGrid"></div>
+</section>
+
+<section id="vision">
+  <h2>Vision</h2>
+  <div class="card">
+    We believe in creating digital experiences that feel alive.  
+    Not just games or apps—but systems with identity, mood, and depth.  
+    The void is not empty… it’s full of ideas waiting to be built.
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <div class="card">
+    Email: voidedstudios@email.com <br/>
+    Discord: coming soon <br/>
+    Status: Open to collaboration
+  </div>
+</section>
+
+<footer>
+  © 2026 Voided Studios — Built from the Void
+</footer>
+
+<script>
+/* ---------------- PROJECT DATA ---------------- */
+const projects = [
+  { name: "VoidGPT", desc: "Experimental AI system and tools." },
+  { name: "Roblox Systems", desc: "Combat, UI, and admin frameworks." },
+  { name: "Void Engine Tools", desc: "Custom dev utilities and scripts." },
+  { name: "Unknown Prototype", desc: "A secret in development..." }
+];
+
+const grid = document.getElementById("projectGrid");
+
+projects.forEach(p => {
+  const div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML = `<h3>${p.name}</h3><p>${p.desc}</p>`;
+  grid.appendChild(div);
+});
+
+/* ---------------- PARTICLE VOID BACKGROUND ---------------- */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2,
+    dx: (Math.random() - 0.5) * 0.5,
+    dy: (Math.random() - 0.5) * 0.5
+  });
+}
+
+function animate() {
+  ctx.fillStyle = "#0a0014";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#b86bff";
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
